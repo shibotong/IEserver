@@ -5,6 +5,9 @@ from connection import DBConnection
 db = DBConnection()
 
 app=Flask(__name__)
+@app.route("/", methods=["GET"])
+def main_page():
+    return 'nothing here'
 
 @app.route("/activity",methods=["GET"])
 def check():
@@ -20,11 +23,14 @@ def check():
     #name = get_data.get('name')
     #age = get_data.get('age')
     # operate params
+
+    # configure return dict
     return_dict['result'] = get_activity()
 
     return json.dumps(return_dict, ensure_ascii=False)
 
 def get_activity():
+    #get all activity
     return_str = db.get_activity()
     return return_str
 

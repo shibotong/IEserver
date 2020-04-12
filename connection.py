@@ -27,9 +27,15 @@ class DBConnection:
     def get_activity(self):
         query = 'select * from activity'
         self.cursor.execute(query)
-        record = self.cursor.fetchall()
-        print(record[0])
-        return record[0]
+        records = self.cursor.fetchall()
+        result = []
+        for record in records:
+            activity = {}
+            activity['activity_name'] = record[0]
+            activity['activity_id'] = record[1]
+            result.append(activity)
+        
+        return result
 
     def close(self):
         if(self.connection.is_connected()):
