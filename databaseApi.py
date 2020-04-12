@@ -24,7 +24,6 @@ def check():
 
     return json.dumps(return_dict, ensure_ascii=False)
 
-    # 功能函数
 def get_activity():
     return_str = db.get_activity()
     return return_str
