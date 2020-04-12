@@ -15,11 +15,11 @@ def check():
         return_dict['return_info'] = 'empty'
         return json.dumps(return_dict, ensure_ascii=False)
 
-    # 获取传入的params参数
+    # get params
     #get_data = request.args.to_dict()
     #name = get_data.get('name')
     #age = get_data.get('age')
-    # 对参数进行操作
+    # operate params
     return_dict['result'] = get_activity()
 
     return json.dumps(return_dict, ensure_ascii=False)
