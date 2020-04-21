@@ -5,34 +5,38 @@ from connection import DBConnection
 db = DBConnection()
 
 app=Flask(__name__)
+
+return_default = {'return_code': '200', 'return_info': 'success', 'result': False}
 @app.route("/", methods=["GET"])
 def main_page():
-    return 'nothing here'
+    return_str = """
+    This is the server of ActiDiabet App. This server only provide APIs for ActiDiabet Application. \n
+    '/Intensity': get all intensity levels\n
+    """
 
-@app.route("/activity",methods=["GET"])
-def check():
+    return return_str
+
+#@app.route("/activity",methods=["GET"])
+#def check():
     # define a return dictionary
-    return_dict = {'return_code': '200', 'return_info': 'success', 'result': False}
-    if request.args is None:
-        return_dict['return_code'] = '5004'
-        return_dict['return_info'] = 'empty'
-        return json.dumps(return_dict, ensure_ascii=False)
+#    return_dict = return_default.copy()
 
-    # get params
-    #get_data = request.args.to_dict()
-    #name = get_data.get('name')
-    #age = get_data.get('age')
-    # operate params
+#    if request.args is None:
+#        return_dict['return_code'] = '5004'
+#        return_dict['return_info'] = 'empty'
+ #       return json.dumps(return_dict, ensure_ascii=False)
+#    return_str = db.get_activity()
+ #   return_dict['result'] = return_str
 
-    # configure return dict
-    return_dict['result'] = get_activity()
+#    return json.dumps(return_dict, ensure_ascii=False)
 
+@app.route("/intensity", methods=["GET"])
+def get_intensity():
+    return_dict = return_default.copy()
+    return_str = db.get_intensity()
+    return_dict['result'] = return_str
     return json.dumps(return_dict, ensure_ascii=False)
 
-def get_activity():
-    #get all activity
-    return_str = db.get_activity()
-    return return_str
 
 if __name__ == "__main__":
     try:

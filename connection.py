@@ -4,7 +4,7 @@ from mysql.connector import Error
 class DBConnection:
 
     host = 'db1.crcnvu3pnfow.ap-southeast-2.rds.amazonaws.com'
-    database = 'activity'
+    database = 'b8_db'
     user = 'admin'
     password = 'abcd1234'
     cursor = None
@@ -35,6 +35,20 @@ class DBConnection:
             activity['activity_id'] = record[1]
             result.append(activity)
         
+        return result
+
+    def get_intensity(self):
+        query = 'select * from intensity_level'
+        self.cursor.execute(query)
+        records = self.cursor.fetchall()
+        result = []
+        for record in records:
+            intensity = {}
+            intensity['intensity'] = record[0]
+            intensity['duration_aerobic'] = record[1]
+            intensity['duration_resistance'] = record[2]
+            intensity['description'] = record[3]
+            result.append(intensity)
         return result
 
     def close(self):
