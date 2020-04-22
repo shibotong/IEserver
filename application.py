@@ -30,6 +30,13 @@ def get_activity():
     return_dict['result'] = return_str
     return json.dumps(return_dict, ensure_ascii=False)
 
+@app.route("/activity/<search>")
+def search_activity(search):
+    return_dict = return_default.copy()
+    return_str = db.get_activity_with_string(search)
+    return_dict['result'] = return_str
+    return json.dumps(return_dict, ensure_ascii=False)
+
 
 if __name__ == "__main__":
     try:
