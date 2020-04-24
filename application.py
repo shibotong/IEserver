@@ -37,6 +37,12 @@ def search_activity(search):
     return_dict['result'] = return_str
     return json.dumps(return_dict, ensure_ascii=False)
 
+@app.route("/activity/recommendation/<userid>")
+def get_recommend(userid):
+    return_dict = return_default.copy()
+    return_str = db.get_recommend_activity(userid)
+    
+
 
 if __name__ == "__main__":
     try:
