@@ -41,6 +41,8 @@ def search_activity(search):
 def get_recommend(userid):
     return_dict = return_default.copy()
     return_str = db.get_recommend_activity(userid)
+
+
     
 
 

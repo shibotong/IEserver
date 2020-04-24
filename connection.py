@@ -71,13 +71,14 @@ class DBConnection:
         return result
 
 
-    def perform_activity(record):
+    def perform_activity(self, record):
         activity = {}
-        activity['activity_name'] = record[0]
-        activity['type'] = record[2]
-        activity['duration'] = record[3]
-        activity['indoor'] = record[4]
-        activity['video_url'] = record[5]
+        activity['id'] =  record[0]
+        activity['activity_name'] = record[1]
+        activity['type'] = record[3]
+        activity['duration'] = record[4]
+        activity['indoor'] = record[5]
+        activity['video_url'] = record[6]
         return activity
 
 
