@@ -30,9 +30,45 @@ class DBConnection:
         records = self.cursor.fetchall()
         result = []
         for record in records:
+            print(record)
+            activity = {}
+            activity['id'] = record[0]
+            activity['activity_name'] = record[1]
+            activity['type'] = record[3]
+            activity['duration'] = record[4]
+            activity['indoor'] = record[5]
+            activity['video_url'] = record[6]
+            result.append(activity)
+        
+        return result
+
+    def get_intensity(self):
+        query = 'select * from intensity_level'
+        self.cursor.execute(query)
+        records = self.cursor.fetchall()
+        result = []
+        for record in records:
+            intensity = {}
+            intensity['intensity'] = record[0]
+            intensity['duration_aerobic'] = record[1]
+            intensity['duration_resistance'] = record[2]
+            intensity['description'] = record[3]
+            result.append(intensity)
+        return result
+
+    def get_activity_with_string(self, search):
+        query = 'select * from physical_activity where activity_name like "%' + search + '%"'
+        self.cursor.execute(query)
+        records = self.cursor.fetchall()
+        result = []
+        for record in records:
+            print(record)
             activity = {}
             activity['activity_name'] = record[0]
-            activity['activity_id'] = record[1]
+            activity['type'] = record[2]
+            activity['duration'] = record[3]
+            activity['indoor'] = record[4]
+            activity['video_url'] = record[5]
             result.append(activity)
         
         return result
