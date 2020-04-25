@@ -13,8 +13,20 @@ def main_page():
     This is the server of ActiDiabet App. This server only provide APIs for ActiDiabet Application. 
     '/Intensity': get all intensity levels 
     """
-
     return return_str
+
+@app.route("/adduser/<string:insert>")
+def new_user(insert):
+    result = db.add_user(insert) # returns the newly registered user ID
+    return result
+
+
+## WIP
+@app.route("/addreview/<string:insert>")
+def new_review(insert):
+    result = db.add_review(insert)
+    return result
+
 
 @app.route("/intensity", methods=["GET"])
 def get_intensity():
@@ -30,20 +42,53 @@ def get_activity():
     return_dict['result'] = return_str
     return json.dumps(return_dict, ensure_ascii=False)
 
-@app.route("/activity/<search>")
-def search_activity(search):
+
+@app.route("/activity/search/byID/<activityId>")
+def search_activity_byID(activityId):
     return_dict = return_default.copy()
-    return_str = db.get_activity_with_string(search)
+    return_str = db.match_acticityName_by_id(activityId)
     return_dict['result'] = return_str
     return json.dumps(return_dict, ensure_ascii=False)
+
+
+@app.route("/activity/search/byName/<activityName>")
+def search_activityID_byName(activityName):
+    return_dict = return_default.copy()
+    return_str = db.match_acticityId_by_name(activityName)
+    return_dict['result'] = return_str
+    return json.dumps(return_dict, ensure_ascii=False)
+
+
+# @app.route("/activity/<search>")
+# def search_activity(search):
+#     return_dict = return_default.copy()
+#     return_str = db.get_activity_with_string(search)
+#     return_dict['result'] = return_str
+#     return json.dumps(return_dict, ensure_ascii=False)
+
 
 @app.route("/activity/recommendation/<userid>")
 def get_recommend(userid):
     return_dict = return_default.copy()
-    return_str = db.get_recommend_activity(userid)
+    return_str = db.get_recommend_activity(userid) 
+    return_dict['result'] = return_str
+    return json.dumps(return_dict, ensure_ascii=False)
 
+@app.route("/activity/place/<postcode>")
+def get_place(postcode):
+    return_dict = return_default.copy()
+    return_str = db.get_openSpace(postcode) 
+    return_dict['result'] = return_str
+    return json.dumps(return_dict, ensure_ascii=False)
 
-    
+@app.route("/activity/pool/<postcode>")
+def get_pool(postcode):
+    return_dict = return_default.copy()
+    return_str = db.get_pool(postcode) 
+    return_dict['result'] = return_str
+    return json.dumps(return_dict, ensure_ascii=False)
+
+ 
 
 
 if __name__ == "__main__":
