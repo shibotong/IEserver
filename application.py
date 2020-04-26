@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, send_file
 import json
 from connection import DBConnection
 
@@ -99,8 +99,10 @@ def get_pool(postcode):
     return_dict['result'] = return_str
     return json.dumps(return_dict, ensure_ascii=False)
 
- 
-
+@app.route("/activity/img/<imgID>")
+def get_img(imgID):
+    filename = './img/exercise_' + imgID + '.png'
+    return send_file(filename, mimetype='image/png')
 
 if __name__ == "__main__":
     try:
