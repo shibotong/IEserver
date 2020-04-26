@@ -156,6 +156,7 @@ class DBConnection:
 
     def perform_activity(self, record):
         activity = {}
+        activity['id'] = record[0]
         activity['activity_name'] = record[1]
         activity['type'] = record[3]
         activity['duration'] = record[4]

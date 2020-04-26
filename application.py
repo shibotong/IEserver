@@ -10,15 +10,26 @@ return_default = {'return_code': '200', 'return_info': 'success', 'result': Fals
 @app.route("/", methods=["GET"])
 def main_page():
     return_str = """
-    This is the server of ActiDiabet App. This server only provide APIs for ActiDiabet Application. 
-    '/Intensity': get all intensity levels 
+    <p>This is the server of ActiDiabet App. This server only provide APIs for ActiDiabet Application. </p>
+    <p>'/adduser/zipcode_intensity': create a new user and return userid, </p>
+    <p>'/Intensity': get all intensity levels</p>
+    <p>'/addreview/userid_activityid_rating': post the rating of user</p>
+    <p>'/activity': return all activities</p>
+    <p>'/activity/search/byID/<activityID>': return a specific activity with id </p>
+    <p>'/activity/recommendation/<userid>' : get recommendation with specific user id (return 2 activities)</p>
+    <p>'/activity/search/byString/<search>': search activities</p>
+    <p>'/activity/place/<postcode>': get all open spaces for specific postcode</p>
+    <p>'/activity/pool/<postcode>': get all pools for specific postcode</p>
+
     """
     return return_str
 
 @app.route("/adduser/<string:insert>")
 def new_user(insert):
+    return_dict = return_default.copy()
     result = db.add_user(insert) # returns the newly registered user ID
-    return result
+    return_dict['result'] = result
+    return json.dumps(return_dict)
 
 
 ## WIP
@@ -59,12 +70,12 @@ def search_activityID_byName(activityName):
     return json.dumps(return_dict, ensure_ascii=False)
 
 
-# @app.route("/activity/<search>")
-# def search_activity(search):
-#     return_dict = return_default.copy()
-#     return_str = db.get_activity_with_string(search)
-#     return_dict['result'] = return_str
-#     return json.dumps(return_dict, ensure_ascii=False)
+@app.route("/activity/search/byString/<search>")
+def search_activity(search):
+    return_dict = return_default.copy()
+    return_str = db.get_activity_with_string(search)
+    return_dict['result'] = return_str
+    return json.dumps(return_dict, ensure_ascii=False)
 
 
 @app.route("/activity/recommendation/<userid>")
