@@ -51,7 +51,7 @@ def get_activity():
     return_dict = return_default.copy()
     return_str = db.get_activity()
     return_dict['result'] = return_str
-    return json.dumps(return_dict, ensure_ascii=False)
+    return json.dumps(return_dict, ensure_ascii=False),200,{'contentType': 'application/json'}
 
 
 @app.route("/activity/search/byID/<activityId>")

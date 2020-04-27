@@ -128,8 +128,8 @@ class DBConnection:
                  where p.activity_id not in (\
                     select activity_id from popularity_review where user_id = ' + userid + ' and review_rating = -1)\
                         group by p.activity_id having ranking > 0\
-                            order by ranking desc\
-                                limit 2;'
+                            order by ranking desc;'
+                                
         self.cursor.execute(query)
         records = self.cursor.fetchall()
         result = []
