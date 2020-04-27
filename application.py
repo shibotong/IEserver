@@ -105,8 +105,5 @@ def get_img(imgID):
     return send_file(filename, mimetype='image/png')
 
 if __name__ == "__main__":
-    try:
-        app.run(debug=True)
-    except KeyboardInterrupt:
-        db.close()
+    app.run(debug=True)
 

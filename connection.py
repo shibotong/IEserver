@@ -102,7 +102,7 @@ class DBConnection:
         return place
 
     def get_openSpace(self, postcode):
-        query = 'SELECT space_name, space_long, space_lat FROM b8_db.public_open_space where postcode =' + postcode
+        query = 'SELECT space_name, space_long, space_lat FROM b8_db.public_open_space where postcode = ' + postcode
         self.cursor.execute(query)
         records = self.cursor.fetchall()
         result = []
@@ -112,7 +112,8 @@ class DBConnection:
         return result
 
     def get_pool(self, postcode):
-        query = 'SELECT pool_name, pool_long, pool_lat FROM b8_db.swimming_pool where postcode =' + postcode
+        query = 'SELECT pool_name, pool_long, pool_lat FROM b8_db.swimming_pool where postcode = ' + postcode
+        print(query)
         self.cursor.execute(query)
         records = self.cursor.fetchall()
         result = []
@@ -163,10 +164,3 @@ class DBConnection:
         activity['indoor'] = record[5]
         activity['video_url'] = record[6]
         return activity
-
-
-    def close(self):
-        if(self.connection.is_connected()):
-            self.connection.close()
-            self.cursor.close()
-            print('database disconnected')
