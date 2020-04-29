@@ -123,6 +123,8 @@ class DBConnection:
         return result
 
 
+    #TODO indoor query and outdoor query
+
     def get_recommend_activity(self, userid):
         query = 'select p.activity_id, activity_name, a.video_url, a.activity_type, a.duration_min, a.indoor_only, a.video_url_short,sum(review_rating) as ranking \
             from popularity_review p join physical_activity a on p.activity_id = a.activity_id\
