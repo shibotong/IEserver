@@ -1,37 +1,20 @@
 from flask import Flask, request, send_file
 import json
 from connection import DBConnection
-from flask_mysqldb import MySQL
-import Config
 
-
+db = DBConnection()
 
 app=Flask(__name__)
-app.config['MYSQL_HOST'] = Config.host
-app.config['MYSQL_USER'] = Config.user
-app.config['MYSQL_PASSWORD'] = Config.password
-app.config['MYSQL_DB'] = Config.database
-db = DBConnection(app)
 
 return_default = {'return_code': '200', 'return_info': 'success', 'result': False}
-
-@app.route('/test', methods=["GET"])
-def testing():
-    query = 'select * from physical_activity'
-    result = []
-    rv = db.get_activity()
-    print(rv)
-    return str(rv)
-
 @app.route("/", methods=["GET"])
 def main_page():
     return_str = """
     <p>This is the server of ActiDiabet App. This server only provide APIs for ActiDiabet Application. </p>
-    <p>'/activity': return all activities</p>
-    
     <p>'/adduser/zipcode_intensity': create a new user and return userid, </p>
     <p>'/Intensity': get all intensity levels</p>
     <p>'/addreview/userid_activityid_rating': post the rating of user</p>
+    <p>'/activity': return all activities</p>
     <p>'/activity/search/byID/<activityID>': return a specific activity with id </p>
     <p>'/activity/recommendation/<userid>' : get recommendation with specific user id (return 2 activities)</p>
     <p>'/activity/search/byString/<search>': search activities</p>
@@ -41,7 +24,7 @@ def main_page():
     """
     return return_str
 
-@app.route("/adduser")
+@app.route("/adduser/<string:insert>")
 def new_user(insert):
     return_dict = return_default.copy()
     result = db.add_user(insert) # returns the newly registered user ID
