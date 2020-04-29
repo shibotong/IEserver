@@ -7,7 +7,6 @@ class DBConnection:
     database = 'b8_db'
     user = 'admin'
     password = 'abcd1234'
-    cursor = None
     connection = None
 
     def __init__(self):
@@ -18,7 +17,6 @@ class DBConnection:
             if self.connection.is_connected():
                 db_info = self.connection.get_server_info()
                 print('db_info', db_info)
-                self.cursor = self.connection.cursor()
                 print('connect to database success')
 
         except Error as e:
@@ -31,18 +29,24 @@ class DBConnection:
         input1 = input[1]
         input2 = input[0]
         query = "insert into app_user (user_id, intensity, postcode) values (null,'" + input1 + "'," + input2 + ")"
-        self.cursor.execute(query)
+        cursor = self.connection.cursor()
+
+        cursor.execute(query)
         self.connection.commit()
+        
         # get id
-        self.cursor.execute('''select max(user_id) from b8_db.app_user''')
-        maxid = self.cursor.fetchone()[0]
+        cursor.execute('''select max(user_id) from b8_db.app_user''')
+        maxid = cursor.fetchone()[0]
+        cursor.close()
         return str(maxid)
 
 
     def match_acticityName_by_id(self,activity_id):
         query = 'select * from physical_activity where activity_id =' + activity_id
-        self.cursor.execute(query)
-        records = self.cursor.fetchall()
+        cursor = self.connection.cursor()
+        cursor.execute(query)
+        records = cursor.fetchall()
+        cursor.close()
         result = []
         for record in records:
             activity = self.perform_activity(record)
@@ -52,8 +56,10 @@ class DBConnection:
 
     def match_acticityId_by_name(self,activity_name):
         query = 'select * from physical_activity where activity_name  like "%' + activity_name + '%"'
-        self.cursor.execute(query)
-        records = self.cursor.fetchall()
+        cursor = self.connection.cursor()
+        cursor.execute(query)
+        records = cursor.fetchall()
+        cursor.close()
         result = []
         for record in records:
             activity = self.perform_activity(record)
@@ -68,15 +74,20 @@ class DBConnection:
         reviewRating = input[2]
         query = "insert into popularity_review (review_id, user_id, activity_id, review_rating)\
             values (null," + userId + "," + activityId + "," + reviewRating +")"
-        self.cursor.execute(query)
+        cursor = self.connection.cursor()
+
+        cursor.execute(query)
         self.connection.commit()
+        cursor.close()
         return "Successfully added a review"
 
     
     def get_activity(self):
         query = 'select * from physical_activity'
-        self.cursor.execute(query)
-        records = self.cursor.fetchall()
+        cursor = self.connection.cursor()
+        cursor.execute(query)
+        records = cursor.fetchall()
+        cursor.close()
         result = []
         for record in records:
             activity = self.perform_activity(record)
@@ -85,8 +96,10 @@ class DBConnection:
 
     def get_activity_with_string(self, search):
         query = 'select * from physical_activity where activity_name like "%' + search + '%"'
-        self.cursor.execute(query)
-        records = self.cursor.fetchall()
+        cursor = self.connection.cursor()
+        cursor.execute(query)
+        records = cursor.fetchall()
+        cursor.close()
         result = []
         for record in records:
             activity = self.perform_activity(record)
@@ -103,8 +116,10 @@ class DBConnection:
 
     def get_openSpace(self, postcode):
         query = 'SELECT space_name, space_long, space_lat FROM b8_db.public_open_space where postcode = ' + postcode
-        self.cursor.execute(query)
-        records = self.cursor.fetchall()
+        cursor = self.connection.cursor()
+        cursor.execute(query)
+        records = cursor.fetchall()
+        cursor.close()
         result = []
         for record in records:
             place = self.find_place(record)
@@ -113,9 +128,10 @@ class DBConnection:
 
     def get_pool(self, postcode):
         query = 'SELECT pool_name, pool_long, pool_lat FROM b8_db.swimming_pool where postcode = ' + postcode
-        print(query)
-        self.cursor.execute(query)
-        records = self.cursor.fetchall()
+        cursor = self.connection.cursor()
+        cursor.execute(query)
+        records = cursor.fetchall()
+        cursor.close()
         result = []
         for record in records:
             place = self.find_place(record)
@@ -133,8 +149,10 @@ class DBConnection:
                         group by p.activity_id having ranking > 0\
                             order by ranking desc;'
                                 
-        self.cursor.execute(query)
-        records = self.cursor.fetchall()
+        cursor = self.connection.cursor()
+        cursor.execute(query)
+        records = cursor.fetchall()
+        cursor.close()
         result = []
         for record in records:
             activity = self.perform_activity(record)
@@ -144,8 +162,10 @@ class DBConnection:
 
     def get_intensity(self):
         query = 'select * from intensity_level'
-        self.cursor.execute(query)
-        records = self.cursor.fetchall()
+        cursor = self.connection.cursor()
+        cursor.execute(query)
+        records = cursor.fetchall()
+        cursor.close()
         result = []
         for record in records:
             intensity = {}
