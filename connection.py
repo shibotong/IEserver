@@ -24,7 +24,9 @@ class DBConnection:
     
 
     
-    def add_user(self,insert):        
+    def add_user(self,insert):
+        if !self.connection.is_connected():
+            self.connection = mysql.connector.connect(user=self.user, database=self.database, host=self.host, password=self.password)      
         input = insert.split("_")
         input1 = input[1]
         input2 = input[0]
@@ -42,6 +44,8 @@ class DBConnection:
 
 
     def match_acticityName_by_id(self,activity_id):
+        if !self.connection.is_connected():
+            self.connection = mysql.connector.connect(user=self.user, database=self.database, host=self.host, password=self.password)
         query = 'select * from physical_activity where activity_id =' + activity_id
         cursor = self.connection.cursor()
         cursor.execute(query)
@@ -55,6 +59,8 @@ class DBConnection:
 
 
     def match_acticityId_by_name(self,activity_name):
+        if !self.connection.is_connected():
+            self.connection = mysql.connector.connect(user=self.user, database=self.database, host=self.host, password=self.password)
         query = 'select * from physical_activity where activity_name  like "%' + activity_name + '%"'
         cursor = self.connection.cursor()
         cursor.execute(query)
@@ -68,6 +74,8 @@ class DBConnection:
 
     
     def add_review(self,insert): 
+        if !self.connection.is_connected():
+            self.connection = mysql.connector.connect(user=self.user, database=self.database, host=self.host, password=self.password)
         input = insert.split("_")
         userId = input[0]
         activityId = input[1]
@@ -83,6 +91,8 @@ class DBConnection:
 
     
     def get_activity(self):
+        if !self.connection.is_connected():
+            self.connection = mysql.connector.connect(user=self.user, database=self.database, host=self.host, password=self.password)
         query = 'select * from physical_activity'
         cursor = self.connection.cursor()
         cursor.execute(query)
@@ -95,6 +105,8 @@ class DBConnection:
         return result
 
     def get_activity_with_string(self, search):
+        if !self.connection.is_connected():
+            self.connection = mysql.connector.connect(user=self.user, database=self.database, host=self.host, password=self.password)
         query = 'select * from physical_activity where activity_name like "%' + search + '%"'
         cursor = self.connection.cursor()
         cursor.execute(query)
@@ -115,6 +127,8 @@ class DBConnection:
         return place
 
     def get_openSpace(self, postcode):
+        if !self.connection.is_connected():
+            self.connection = mysql.connector.connect(user=self.user, database=self.database, host=self.host, password=self.password)
         query = 'SELECT space_name, space_long, space_lat FROM b8_db.public_open_space where postcode = ' + postcode
         cursor = self.connection.cursor()
         cursor.execute(query)
@@ -127,6 +141,8 @@ class DBConnection:
         return result
 
     def get_pool(self, postcode):
+        if !self.connection.is_connected():
+            self.connection = mysql.connector.connect(user=self.user, database=self.database, host=self.host, password=self.password)
         query = 'SELECT pool_name, pool_long, pool_lat FROM b8_db.swimming_pool where postcode = ' + postcode
         cursor = self.connection.cursor()
         cursor.execute(query)
@@ -142,6 +158,8 @@ class DBConnection:
     #TODO indoor query and outdoor query
 
     def get_recommend_activity(self, userid):
+        if !self.connection.is_connected():
+            self.connection = mysql.connector.connect(user=self.user, database=self.database, host=self.host, password=self.password)
         query = 'select p.activity_id, activity_name, a.video_url, a.activity_type, a.duration_min, a.indoor_only, a.video_url_short,sum(review_rating) as ranking \
             from popularity_review p join physical_activity a on p.activity_id = a.activity_id\
                  where p.activity_id not in (\
@@ -161,6 +179,8 @@ class DBConnection:
 
 
     def get_intensity(self):
+        if !self.connection.is_connected():
+            self.connection = mysql.connector.connect(user=self.user, database=self.database, host=self.host, password=self.password)
         query = 'select * from intensity_level'
         cursor = self.connection.cursor()
         cursor.execute(query)
