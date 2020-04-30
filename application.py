@@ -11,7 +11,7 @@ return_default = {'return_code': '200', 'return_info': 'success', 'result': Fals
 def main_page():
     return_str = """
     <p>This is the server of ActiDiabet App. This server only provide APIs for ActiDiabet Application. </p>
-    <p>'/adduser/zipcode_intensity': create a new user and return userid, </p>
+    <p>'/adduser/zipcode_intensity': create a new  user and return userid, </p>
     <p>'/Intensity': get all intensity levels</p>
     <p>'/addreview/userid_activityid_rating': post the rating of user</p>
     <p>'/activity': return all activities</p>
