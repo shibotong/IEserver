@@ -24,6 +24,8 @@ def main_page():
     """
     return return_str
 
+# performs an SQL query to insert a new user into the db
+# when a web browser requests the below URL 
 @app.route("/adduser/<string:insert>")
 def new_user(insert):
     return_dict = return_default.copy()
@@ -31,14 +33,15 @@ def new_user(insert):
     return_dict['result'] = result
     return json.dumps(return_dict)
 
-
-## WIP
+# performs an SQL query to insert a new user review into the db
+# when a web browser requests the below URL 
 @app.route("/addreview/<string:insert>")
 def new_review(insert):
     result = db.add_review(insert)
     return result
 
-
+# returns a json object of the intensity data
+# when a web browser requests the below URL 
 @app.route("/intensity", methods=["GET"])
 def get_intensity():
     return_dict = return_default.copy()
@@ -46,6 +49,8 @@ def get_intensity():
     return_dict['result'] = return_str
     return json.dumps(return_dict, ensure_ascii=False)
 
+# returns a json object of the activity data
+# when a web browser requests the below URL 
 @app.route("/activity", methods=["GET"])
 def get_activity():
     return_dict = return_default.copy()
@@ -53,7 +58,8 @@ def get_activity():
     return_dict['result'] = return_str
     return json.dumps(return_dict, ensure_ascii=False),200,{'contentType': 'application/json'}
 
-
+# returns a json object of the matched activity data based on the input activity_id
+# when a web browser requests the below URL 
 @app.route("/activity/search/byID/<activityId>")
 def search_activity_byID(activityId):
     return_dict = return_default.copy()
@@ -61,7 +67,8 @@ def search_activity_byID(activityId):
     return_dict['result'] = return_str
     return json.dumps(return_dict, ensure_ascii=False)
 
-
+# returns a json object of the matched activity data based on the input activity_name
+# when a web browser requests the below URL 
 @app.route("/activity/search/byName/<activityName>")
 def search_activityID_byName(activityName):
     return_dict = return_default.copy()
@@ -70,6 +77,8 @@ def search_activityID_byName(activityName):
     return json.dumps(return_dict, ensure_ascii=False)
 
 
+# returns a json object of the matched activity data based on the input keyword
+# when a web browser requests the below URL 
 @app.route("/activity/search/byString/<search>")
 def search_activity(search):
     return_dict = return_default.copy()
@@ -77,7 +86,8 @@ def search_activity(search):
     return_dict['result'] = return_str
     return json.dumps(return_dict, ensure_ascii=False)
 
-
+# returns a json object for the recommeded activities
+# when a web browser requests the below URL 
 @app.route("/activity/recommendation/<userid>")
 def get_recommend(userid):
     return_dict = return_default.copy()
@@ -85,13 +95,17 @@ def get_recommend(userid):
     return_dict['result'] = return_str
     return json.dumps(return_dict, ensure_ascii=False)
 
+# returns a json object of the place data 
+# (including open spaces and pools that belong to the input postcode)
+# when a web browser requests the below URL 
 @app.route("/activity/place/<postcode>")
 def get_place(postcode):
     return_dict = return_default.copy()
-    return_str = db.get_openSpace(postcode) 
+    return_str = db.query_place(postcode) 
     return_dict['result'] = return_str
     return json.dumps(return_dict, ensure_ascii=False)
 
+# to be commented out (no longer in use)
 @app.route("/activity/pool/<postcode>")
 def get_pool(postcode):
     return_dict = return_default.copy()
@@ -99,6 +113,8 @@ def get_pool(postcode):
     return_dict['result'] = return_str
     return json.dumps(return_dict, ensure_ascii=False)
 
+# returns imnage based on the imgID
+# when a web browser requests the below URL
 @app.route("/activity/img/<imgID>")
 def get_img(imgID):
     filename = './img/exercise_' + imgID + '.png'
