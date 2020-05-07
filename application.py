@@ -1,5 +1,6 @@
 from flask import Flask, request, send_file
 import json
+from pathlib import Path
 from connection import DBConnection
 
 db = DBConnection()
@@ -117,7 +118,11 @@ def get_pool(postcode):
 # when a web browser requests the below URL
 @app.route("/activity/img/<imgID>")
 def get_img(imgID):
-    filename = './img/exercise_' + imgID + '.png'
+    filename = Path('./img/exercise_' + imgID + '.png')
+    if not filename.exists():
+        print('file not exist')
+        filename = Path('./img/exercise_1.png')
+    
     return send_file(filename, mimetype='image/png')
 
 if __name__ == "__main__":
