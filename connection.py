@@ -31,6 +31,7 @@ class DBConnection:
 
     # creates structure of a dictionary type for organizing activity data into key-value pairs
     def perform_activity(self, record):
+        print(record)
         activity = {}
         activity['id'] = record[0]
         activity['activity_name'] = record[1]
@@ -38,6 +39,7 @@ class DBConnection:
         activity['duration'] = record[4]
         activity['indoor'] = record[5]
         activity['video_url'] = record[6]
+        activity['img'] = record[7]
         return activity
 
 

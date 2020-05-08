@@ -118,10 +118,10 @@ def get_pool(postcode):
 # when a web browser requests the below URL
 @app.route("/activity/img/<imgID>")
 def get_img(imgID):
-    filename = Path('./img/exercise_' + imgID + '.png')
+    filename = Path('./img/' + imgID + '.png')
     if not filename.exists():
         print('file not exist')
-        filename = Path('./img/exercise_1.png')
+        filename = Path('./img/01.png')
     
     return send_file(filename, mimetype='image/png')
 
