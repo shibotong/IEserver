@@ -39,7 +39,7 @@ class DBConnection:
         activity['duration'] = record[4]
         activity['indoor'] = record[5]
         activity['video_url'] = record[6]
-        activity['img'] = record[7]
+        activity['img'] = str(record[7])
         return activity
 
 
@@ -189,6 +189,7 @@ class DBConnection:
         for record in records:
             activity = self.perform_activity(record)
             result.append(activity)
+        print(result)
         return result
 
     # queries intensity data from the `intensity_level` table in db
