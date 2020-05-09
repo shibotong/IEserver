@@ -121,7 +121,7 @@ def get_img(imgID):
     filename = Path('./img/' + imgID + '.png')
     if not filename.exists():
         print('file not exist')
-        filename = Path('./img/01.png')
+        filename = Path('./img/1.png')
     
     return send_file(filename, mimetype='image/png')
 
