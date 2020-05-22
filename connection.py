@@ -40,6 +40,7 @@ class DBConnection:
         activity['indoor'] = record[5]
         activity['video_url'] = record[6]
         activity['img'] = str(record[7])
+        activity['short_name'] = record[8]
         return activity
 
 
