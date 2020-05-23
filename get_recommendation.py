@@ -7,19 +7,19 @@ trainingSet = data.build_full_trainset()
 algo.fit(trainingSet)
 
 
-def generate_weights(user,item_list,algo):
+def generate_weights(user_id,item_list,algo):
     """generates a list of items based on their weights"""   
     # generates predictions
-    def rating_pred(user,item_list,algo):
+    def rating_pred(user_id,item_list,algo):
         pred = {}
         for i in item_list:
-            prediction = algo.predict(user, i)
+            prediction = algo.predict(user_id, i)
             pred[i] = prediction.est
         return pred
     
     # generates weights 
     weighted_list = []
-    pred = rating_pred(3,item_list,algo)
+    pred = rating_pred(user_id,item_list,algo)
     
     for i in pred.keys():
         if pred[i] <0: # if the predicted rating is negative
