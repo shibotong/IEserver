@@ -2,6 +2,7 @@ from recommender import algo
 from load_data import data,item_list
 import random
 
+
 # building model on training data
 trainingSet = data.build_full_trainset()
 algo.fit(trainingSet)
@@ -30,6 +31,10 @@ def generate_weights(user_id,item_list,algo):
             weighted_list += 3 * [i]
     return weighted_list
 
+
 def generate_recommendation(user_id,item_list,algo):
     weighted_l = generate_weights(user_id,item_list,algo)
     return random.choice(weighted_l)
+
+if __name__ == "__main__":
+    app.run(debug=False)

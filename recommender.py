@@ -7,3 +7,6 @@ sim_options = {
     "user_based": False,  # Compute  similarities between items
 }
 algo = KNNWithMeans(sim_options=sim_options)
+
+if __name__ == "__main__":
+    app.run(debug=False)

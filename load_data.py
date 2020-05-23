@@ -26,8 +26,10 @@ reader = Reader(rating_scale=(-1, 1))
 data = Dataset.load_from_df(rating[["user", "item", "rating"]], reader)
 
 # item data
-sql_select_Query = pd.read_sql_query("select activity_id, activity_name from b8_db.physical_activity",connection)
-item = pd.DataFrame(sql_select_Query, columns=['activity_id','activity_name'])
-item.columns = ['item_id','item_name']
-item_list = item.item_id
+sql_select_Query = pd.read_sql_query("select activity_id, activity_name, activity_type from b8_db.physical_activity",connection)
+item_detail = pd.DataFrame(sql_select_Query, columns=['activity_id','activity_name','activity_type'])
+item_detail.columns = ['item_id','item_name','item_type']
+item_list = item_detail.item_id
 
+if __name__ == "__main__":
+    app.run(debug=False)

@@ -43,11 +43,23 @@ class DBConnection:
         activity['short_name'] = record[8]
         return activity
 
+    # returns activity type based on input activity_id
+    def match_actvityType_by_id(self,activity_id):
+        connection = mysql.connector.connect(user=self.user, database=self.database, host=self.host, password=self.password)
+        query = 'select activity_type\
+             from physical_activity where activity_id =' + activity_id
+        cursor = connection.cursor()
+        cursor.execute(query)
+        record = cursor.fetchone()[0]
+        connection.close()
+        return record
+
 
     # queries activity data from the table `physical_activity` table in db based on the activity id
     def match_acticityName_by_id(self,activity_id):
         connection = mysql.connector.connect(user=self.user, database=self.database, host=self.host, password=self.password)
-        query = 'select * from physical_activity where activity_id =' + activity_id
+        query = 'select activity_id,activity_name,video_url,activity_type,duration_min,indoor_only,video_url_short,icon_id, short_name\
+             from physical_activity where activity_id =' + activity_id
         cursor = connection.cursor()
         cursor.execute(query)
         records = cursor.fetchall()
@@ -57,6 +69,7 @@ class DBConnection:
             result.append(activity)
         connection.close()
         return result
+
 
     # queries activity data from the table `physical_activity` table in db based on the activity name
     def match_acticityId_by_name(self,activity_name):
@@ -142,40 +155,12 @@ class DBConnection:
             result.append(place)
         return result
 
-    # to be commented out (no longer needed)
-    def get_openSpace(self, postcode):
-        connection = mysql.connector.connect(user=self.user, database=self.database, host=self.host, password=self.password)
-        query = 'SELECT space_name, space_long, space_lat FROM b8_db.public_open_space where postcode = ' + postcode
-        cursor = connection.cursor()
-        cursor.execute(query)
-        records = cursor.fetchall()
-        connection.close()
-        result = []
-        for record in records:
-            place = self.find_place(record)
-            result.append(place)
-        return result
-
-    # to be commented out (no longer needed)
-    def get_pool(self, postcode):
-        connection = mysql.connector.connect(user=self.user, database=self.database, host=self.host, password=self.password)
-        query = 'SELECT pool_name, pool_long, pool_lat FROM b8_db.swimming_pool where postcode = ' + postcode
-        cursor = connection.cursor()
-        cursor.execute(query)
-        records = cursor.fetchall()
-        connection.close()
-        result = []
-        for record in records:
-            place = self.find_place(record)
-            result.append(place)
-        return result
-
 
     #TODO indoor query and outdoor query
 
     def get_recommend_activity(self, userid):
         connection = mysql.connector.connect(user=self.user, database=self.database, host=self.host, password=self.password)
-        query = 'select p.activity_id, activity_name, a.video_url, a.activity_type, a.duration_min, a.indoor_only, a.video_url_short,sum(review_rating) as ranking \
+        query = 'select p.activity_id, activity_name, a.video_url, a.activity_type, a.duration_min, a.indoor_only, a.video_url_short,sum(review_rating) as ranking, short_name \
             from popularity_review p join physical_activity a on p.activity_id = a.activity_id\
                  where p.activity_id not in (\
                     select activity_id from popularity_review where user_id = ' + userid + ' and review_rating = -1)\
@@ -211,21 +196,18 @@ class DBConnection:
             result.append(intensity)
         return result
 
-    # # get ratings data from popularity_rating table in db
-    # def get_ratings(self):
-    #     connection = mysql.connector.connect(user=self.user, database=self.database, host=self.host, password=self.password)
-    #     query = "select activity_id,user_id,review_rating from popularity_review"
-    #     cursor = connection.cursor()
-    #     cursor.execute(query)
-    #     records = cursor.fetchall()
-    #     result = []
-    #     for record in records:
-    #         ratings = {}
-    #         ratings['item'] = record[0]
-    #         ratings['user'] = record[1]
-    #         ratings['rating'] = record[2]
-    #         result.append(ratings)
-    #     return  result
-
-
-
+    # get ratings data from popularity_rating table in db
+    def get_ratings(self):
+        connection = mysql.connector.connect(user=self.user, database=self.database, host=self.host, password=self.password)
+        query = "select activity_id,user_id,review_rating from popularity_review"
+        cursor = connection.cursor()
+        cursor.execute(query)
+        records = cursor.fetchall()
+        result = []
+        for record in records:
+            ratings = {}
+            ratings['item'] = record[0]
+            ratings['user'] = record[1]
+            ratings['rating'] = record[2]
+            result.append(ratings)
+        return  result
