@@ -211,4 +211,21 @@ class DBConnection:
             result.append(intensity)
         return result
 
+    # # get ratings data from popularity_rating table in db
+    # def get_ratings(self):
+    #     connection = mysql.connector.connect(user=self.user, database=self.database, host=self.host, password=self.password)
+    #     query = "select activity_id,user_id,review_rating from popularity_review"
+    #     cursor = connection.cursor()
+    #     cursor.execute(query)
+    #     records = cursor.fetchall()
+    #     result = []
+    #     for record in records:
+    #         ratings = {}
+    #         ratings['item'] = record[0]
+    #         ratings['user'] = record[1]
+    #         ratings['rating'] = record[2]
+    #         result.append(ratings)
+    #     return  result
+
+
 

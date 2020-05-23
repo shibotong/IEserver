@@ -114,6 +114,15 @@ def get_pool(postcode):
     return_dict['result'] = return_str
     return json.dumps(return_dict, ensure_ascii=False)
 
+
+# @app.route("/ratings", methods=["GET"])
+# def search_ratings():
+#     return_dict = return_default.copy()
+#     return_str = db.get_ratings()
+#     return_dict['result'] = return_str
+#     return json.dumps(return_dict, ensure_ascii=False)
+
+
 # returns imnage based on the imgID
 # when a web browser requests the below URL
 @app.route("/activity/img/<imgID>")
