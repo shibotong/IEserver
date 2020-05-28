@@ -5,7 +5,7 @@
 
 ## 2. Technical specifications
 
-### 2.1 Application ([visit GitHub](https://github.com/kartbnb/ActiDiabet))
+### 2.1 Application ([visit GitHub](https://github.com/kartbnb/ActiveBoomers))
 Compatibility: iOS 13.0 or later <br>
 Develop IDE: Xcode <br>
 Develop language: Swift 5.2 <br>
